@@ -302,7 +302,7 @@ def goto(mode="goto", no_output=False):
     elif mode == "definition":
         definitions = script.goto_definitions()
     elif mode == "assignment":
-        definitions = script.goto_assignments()
+        definitions = script.goto_assignments(follow_imports=True)
 
     if no_output:
         return definitions

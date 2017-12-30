@@ -288,16 +288,18 @@ def goto(mode="goto"):
         show_goto_multi_results(definitions)
     return definitions
 
+
 def show_goto_multi_results(definitions):
-    # multiple solutions
+    """Create a quickfix list for multiple definitions."""
     lst = []
     for d in definitions:
         if d.in_builtin_module():
             lst.append(dict(text=PythonToVimStr('Builtin ' + d.description)))
         else:
+            text = '[%s] %s' % (d.description, d.get_line_code().strip())
             lst.append(dict(filename=PythonToVimStr(d.module_path),
                             lnum=d.line, col=d.column + 1,
-                            text=PythonToVimStr(d.description)))
+                            text=PythonToVimStr(text)))
     vim_eval('setqflist(%s)' % repr(lst))
     vim_eval('jedi#add_goto_window(' + str(len(lst)) + ')')
 
